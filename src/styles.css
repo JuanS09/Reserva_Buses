@@ -68,3 +68,10 @@ body {
     font-weight: 600;
     border-bottom: 2px solid #2563eb;
 }
+
+/* Asegurar responsividad fluida en tablas e inputs para móviles */
+@media (max-width: 640px) {
+    .admin-card {
+        padding: 1rem !important;
+    }
+}

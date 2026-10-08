@@ -14,7 +14,7 @@
 <body class="flex flex-col min-h-screen" onload="inicializarPanel()">
 
     <!-- BARRA SUPERIOR (En blanco) -->
-    <header class="bg-white border-b border-slate-200 py-4 px-8 flex justify-between items-center shadow-sm">
+    <header class="bg-white border-b border-slate-200 py-4 px-4 sm:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm">
         <div class="flex items-center space-x-4">
             <h1 id="tituloEmpresaNav" class="text-blue-600 font-bold text-lg tracking-tight">Transportes Rápido Andino
             </h1>
@@ -30,8 +30,8 @@
     </header>
 
     <!-- MENÚ DE PESTAÑAS (En blanco) -->
-    <nav class="bg-white px-8 py-2">
-        <div class="max-w-7xl mx-auto flex space-x-8">
+    <nav class="bg-white px-4 sm:px-8 py-2 overflow-x-auto w-full">
+    <div class="max-w-7xl mx-auto flex space-x-6 sm:space-x-8 min-w-max">
             <button onclick="cambiarPestana('empresa')" id="tab-empresa" class="tab-btn active">Empresa</button>
             <button onclick="cambiarPestana('buses')" id="tab-buses" class="tab-btn">Buses</button>
             <button onclick="cambiarPestana('rutas')" id="tab-rutas" class="tab-btn">Rutas</button>
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="admin-card overflow-hidden">
+            <div class="admin-card overflow-x-auto">
                 <table class="admin-table">
                     <thead>
                         <tr>
