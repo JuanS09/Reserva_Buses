@@ -54,16 +54,21 @@ let busEditandoIndex = null;
 function cargarBuses() {
     const buses = obtenerBuses();
     const tbody = document.getElementById('tablaBuses');
-    if (!tbody) return;
+    const contenedorMobile = document.getElementById('tarjetasBusesMobile');
+    
+    if (!tbody || !contenedorMobile) return;
     
     tbody.innerHTML = '';
+    contenedorMobile.innerHTML = '';
 
     if (buses.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="text-center text-slate-400 py-4">No hay buses registrados para esta empresa.</td></tr>`;
+        contenedorMobile.innerHTML = `<p class="text-center text-slate-400 text-xs py-4 bg-white p-4 rounded-xl border border-slate-200">No hay buses registrados para esta empresa.</p>`;
         return;
     }
 
     buses.forEach((b, i) => {
+        // 1. Fila para PC
         tbody.innerHTML += `
             <tr class="hover:bg-slate-50 transition">
                 <td class="py-3 px-4 font-medium text-slate-900">${b.nombre || 'Sin nombre'}</td>
@@ -75,6 +80,28 @@ function cargarBuses() {
                     <a href="#" onclick="eliminarBus(${i})" class="text-red-600 hover:underline font-medium">Eliminar</a>
                 </td>
             </tr>
+        `;
+
+        // 2. Tarjeta para Celular
+        contenedorMobile.innerHTML += `
+            <div class="admin-card p-4 space-y-3 text-xs">
+                <div class="flex justify-between items-start border-b border-slate-100 pb-2">
+                    <div>
+                        <span class="font-bold text-slate-900 text-sm block">${b.nombre || 'Sin nombre'}</span>
+                        <span class="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">${b.servicio || 'N/A'}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-semibold text-slate-700">Placa: ${b.placa || 'N/A'}</span>
+                    </div>
+                </div>
+                <div class="text-slate-600 space-y-1">
+                    <p><strong>Capacidad:</strong> ${b.capacidad || 0} pasajero(s)</p>
+                </div>
+                <div class="flex justify-end space-x-4 pt-2 border-t border-slate-100">
+                    <a href="#" onclick="prepararEdicionBus(${i})" class="text-blue-600 font-semibold hover:underline">Editar</a>
+                    <a href="#" onclick="eliminarBus(${i})" class="text-red-600 font-semibold hover:underline">Eliminar</a>
+                </div>
+            </div>
         `;
     });
 }
@@ -172,9 +199,12 @@ function filtrarBuses() {
 
     const buses = obtenerBuses();
     const tbody = document.getElementById('tablaBuses');
-    if (!tbody) return;
+    const contenedorMobile = document.getElementById('tarjetasBusesMobile');
+    
+    if (!tbody || !contenedorMobile) return;
 
     tbody.innerHTML = '';
+    contenedorMobile.innerHTML = '';
 
     const busesFiltrados = buses.filter(b => {
         const nombre = (b.nombre || '').toLowerCase();
@@ -188,6 +218,7 @@ function filtrarBuses() {
 
     if (busesFiltrados.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="text-center text-slate-400 py-4">No se encontraron buses con los criterios de búsqueda.</td></tr>`;
+        contenedorMobile.innerHTML = `<p class="text-center text-slate-400 text-xs py-4 bg-white p-4 rounded-xl border border-slate-200">No se encontraron buses con los criterios de búsqueda.</p>`;
         return;
     }
 
@@ -200,6 +231,7 @@ function filtrarBuses() {
         const coincideServicio = servicioFiltro === "" || servicio === servicioFiltro;
 
         if (coincideNombre && coincideServicio) {
+            // 1. Fila PC
             tbody.innerHTML += `
                 <tr class="hover:bg-slate-50 transition">
                     <td class="py-3 px-4 font-medium text-slate-900">${b.nombre || 'Sin nombre'}</td>
@@ -211,6 +243,28 @@ function filtrarBuses() {
                         <a href="#" onclick="eliminarBus(${i})" class="text-red-600 hover:underline font-medium">Eliminar</a>
                     </td>
                 </tr>
+            `;
+
+            // 2. Tarjeta Celular
+            contenedorMobile.innerHTML += `
+                <div class="admin-card p-4 space-y-3 text-xs">
+                    <div class="flex justify-between items-start border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="font-bold text-slate-900 text-sm block">${b.nombre || 'Sin nombre'}</span>
+                            <span class="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">${b.servicio || 'N/A'}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-semibold text-slate-700">Placa: ${b.placa || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <div class="text-slate-600 space-y-1">
+                        <p><strong>Capacidad:</strong> ${b.capacidad || 0} pasajero(s)</p>
+                    </div>
+                    <div class="flex justify-end space-x-4 pt-2 border-t border-slate-100">
+                        <a href="#" onclick="prepararEdicionBus(${i})" class="text-blue-600 font-semibold hover:underline">Editar</a>
+                        <a href="#" onclick="eliminarBus(${i})" class="text-red-600 font-semibold hover:underline">Eliminar</a>
+                    </div>
+                </div>
             `;
         }
     });
@@ -231,16 +285,24 @@ function obtenerRutas() {
 function cargarRutas() {
     const rutas = obtenerRutas();
     const tbody = document.getElementById('tablaRutas');
-    if (!tbody) return;
+    const contenedorMobile = document.getElementById('tarjetasRutasMobile');
+    
+    if (!tbody || !contenedorMobile) return;
+    
     tbody.innerHTML = '';
+    contenedorMobile.innerHTML = '';
 
     if (rutas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-slate-400 py-4">No hay rutas registradas para esta empresa.</td></tr>`;
+        let mensajeVacio = `<tr><td colspan="5" class="text-center text-slate-400 py-4">No hay rutas registradas para esta empresa.</td></tr>`;
+        tbody.innerHTML = mensajeVacio;
+        contenedorMobile.innerHTML = `<p class="text-center text-slate-400 text-xs py-4 bg-white p-4 rounded-xl border border-slate-200">No hay rutas registradas para esta empresa.</p>`;
         return;
     }
 
     rutas.forEach((r, i) => {
         let diasHtml = (r.dias || []).map(d => `<span class="w-5 h-5 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-[10px] font-bold border border-blue-100" title="${d}">${d[0]}</span>`).join('');
+        
+        // 1. Renderizar fila para PC (Tabla)
         tbody.innerHTML += `
             <tr class="hover:bg-slate-50 transition">
                 <td class="py-3 px-4 font-medium text-slate-900">${r.origen} → ${r.destino}</td>
@@ -252,6 +314,28 @@ function cargarRutas() {
                     <a href="#" onclick="eliminarRuta(${i})" class="text-red-600 hover:underline font-medium">Eliminar</a>
                 </td>
             </tr>
+        `;
+
+        // 2. Renderizar tarjeta vertical para Celular (Mobile)
+        contenedorMobile.innerHTML += `
+            <div class="admin-card p-4 space-y-3 text-xs">
+                <div class="flex justify-between items-start border-b border-slate-100 pb-2">
+                    <div>
+                        <span class="font-bold text-slate-900 text-sm block">${r.origen} → ${r.destino}</span>
+                        <span class="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">${r.servicio}</span>
+                    </div>
+                </div>
+                <div class="text-slate-600 space-y-1">
+                    <p><strong>Horario:</strong> ${r.salida} - ${r.llegada}</p>
+                    <div class="flex items-center space-x-1 pt-1">
+                        <strong class="mr-1">Días:</strong> ${diasHtml}
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-4 pt-2 border-t border-slate-100">
+                    <a href="#" onclick="prepararEdicionRuta(${i})" class="text-blue-600 font-semibold hover:underline">Editar</a>
+                    <a href="#" onclick="eliminarRuta(${i})" class="text-red-600 font-semibold hover:underline">Eliminar</a>
+                </div>
+            </div>
         `;
     });
 }
@@ -392,9 +476,12 @@ function filtrarRutas() {
 
     const rutas = obtenerRutas();
     const tbody = document.getElementById('tablaRutas');
-    if (!tbody) return;
+    const contenedorMobile = document.getElementById('tarjetasRutasMobile');
+    
+    if (!tbody || !contenedorMobile) return;
     
     tbody.innerHTML = '';
+    contenedorMobile.innerHTML = '';
 
     const rutasFiltradas = rutas.filter(r => {
         const origen = (r.origen || '').toLowerCase();
@@ -412,6 +499,7 @@ function filtrarRutas() {
 
     if (rutasFiltradas.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="text-center text-slate-400 py-4">No se encontraron rutas con los criterios de búsqueda.</td></tr>`;
+        contenedorMobile.innerHTML = `<p class="text-center text-slate-400 text-xs py-4 bg-white p-4 rounded-xl border border-slate-200">No se encontraron rutas con los criterios de búsqueda.</p>`;
         return;
     }
 
@@ -429,6 +517,7 @@ function filtrarRutas() {
         if (coincideOrigen && coincideDestino && coincideServicio && coincideDia) {
             let diasHtml = dias.map(d => `<span class="w-5 h-5 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-[10px] font-bold border border-blue-100" title="${d}">${d[0]}</span>`).join('');
             
+            // 1. Renderizar fila para PC
             tbody.innerHTML += `
                 <tr class="hover:bg-slate-50 transition">
                     <td class="py-3 px-4 font-medium text-slate-900">${r.origen} → ${r.destino}</td>
@@ -440,6 +529,31 @@ function filtrarRutas() {
                         <a href="#" onclick="eliminarRuta(${i})" class="text-red-600 hover:underline font-medium">Eliminar</a>
                     </td>
                 </tr>
+            `;
+
+            // 2. Renderizar tarjeta para Celular
+            contenedorMobile.innerHTML += `
+                <div class="admin-card p-4 space-y-3 text-xs">
+                    <div class="flex justify-between items-start border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="font-bold text-slate-900 text-sm block">${r.origen} → ${r.destino}</span>
+                            <span class="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">${r.servicio}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-emerald-600 text-sm">${r.precio}</span>
+                        </div>
+                    </div>
+                    <div class="text-slate-600 space-y-1">
+                        <p><strong>Horario:</strong> ${r.salida} - ${r.llegada}</p>
+                        <div class="flex items-center space-x-1 pt-1">
+                            <strong class="mr-1">Días:</strong> ${diasHtml}
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-4 pt-2 border-t border-slate-100">
+                        <a href="#" onclick="prepararEdicionRuta(${i})" class="text-blue-600 font-semibold hover:underline">Editar</a>
+                        <a href="#" onclick="eliminarRuta(${i})" class="text-red-600 font-semibold hover:underline">Eliminar</a>
+                    </div>
+                </div>
             `;
         }
     });

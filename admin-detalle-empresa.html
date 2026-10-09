@@ -45,13 +45,14 @@
         <!-- SECCIÓN 1: INFORMACIÓN DE LA EMPRESA -->
         <section id="seccion-empresa" class="space-y-6">
             <div class="admin-card p-6">
-                <div class="flex justify-between items-center mb-6">
+                <!-- CABECERA ADAPTABLE PARA LOS BOTONES -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-100 pb-4">
                     <h3 class="font-bold text-slate-900 text-sm">Información de la Empresa</h3>
-                    <div class="space-x-2">
+                    <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
                         <button onclick="window.location.href='admin-empresa.html'"
-                            class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded transition">Volver</button>
+                            class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold px-3.5 py-2 rounded transition flex-1 sm:flex-initial text-center">Volver</button>
                         <button id="btnEditarEmpresaDetalle" onclick="toggleFormEditarEmpresaDetalle()"
-                            class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded transition">Editar</button>
+                            class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3.5 py-2 rounded transition flex-1 sm:flex-initial text-center">Editar</button>
                     </div>
                 </div>
 
@@ -157,30 +158,34 @@
                 </div>
             </div>
 
-            <div class="admin-card overflow-x-auto">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Placa</th>
-                            <th>Capacidad</th>
-                            <th>Servicio</th>
-                            <th class="text-right">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaBuses" class="divide-y divide-slate-200 text-xs">
-                        <!--<tr>
-                            <td class="font-medium text-slate-900">Bus Express 001</td>
-                            <td class="text-slate-500">ABC-123</td>
-                            <td class="text-slate-500">45</td>
-                            <td class="text-slate-500">Expreso</td>
-                            <td class="text-right space-x-3">
-                                <a href="#" class="text-blue-600 hover:underline font-medium">Editar</a>
-                                <a href="#" class="text-red-600 hover:underline font-medium">Eliminar</a>
-                            </td>
-                        </tr> -->
-                    </tbody>
-                </table>
+           <!-- Contenedor adaptable para Buses -->
+            <div class="space-y-4">
+
+                <!-- VISTA DE TARJETAS PARA CELULARES (Visible solo en pantallas pequeñas) -->
+                <div class="block md:hidden space-y-3">
+                    <div id="tarjetasBusesMobile" class="space-y-3">
+                        <!-- Se genera automáticamente -->
+                    </div>
+                </div>
+
+                <!-- VISTA DE TABLA TRADICIONAL (Visible solo en computadoras md: en adelante) -->
+                <div class="admin-card overflow-hidden hidden md:block">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Placa</th>
+                                <th>Capacidad</th>
+                                <th>Servicio</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaBuses" class="divide-y divide-slate-200 text-xs">
+                            <!-- Contenido dinámico PC -->
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </section>
 
@@ -349,24 +354,36 @@
                 </div>
 
                 <!-- Tabla de Rutas Dinámica -->
-                <div class="admin-card overflow-hidden">
-                    <table class="admin-table w-full text-left border-collapse">
-                        <thead>
-                            <tr
-                                class="border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider bg-slate-50/50">
-                                <th class="py-3 px-4">Origen → Destino</th>
-                                <th class="py-3 px-4">Horario</th>
-                                <th class="py-3 px-4">Días</th>
-                                <th class="py-3 px-4">Servicio</th>
-                                <th class="py-3 px-4 text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaRutas" class="divide-y divide-slate-200 text-xs text-slate-700">
-                            <!-- Contenido dinámico desde localStorage -->
-                        </tbody>
-                    </table>
-                </div>
+                <!-- Contenedor adaptable para Rutas -->
+                <div class="space-y-4">
 
+                    <!-- VISTA DE TARJETAS PARA CELULARES (Visible solo en pantallas pequeñas) -->
+                    <div class="block md:hidden space-y-3">
+                        <!-- Esto se llenará dinámicamente o puedes adaptarlo en tu JS -->
+                        <div id="tarjetasRutasMobile" class="space-y-3">
+                            <!-- Se genera automáticamente -->
+                        </div>
+                    </div>
+
+                    <!-- VISTA DE TABLA TRADICIONAL (Visible solo en computadoras md: en adelante) -->
+                    <div class="admin-card overflow-hidden hidden md:block">
+                        <table class="admin-table w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider bg-slate-50/50">
+                                    <th class="py-3 px-4">Origen → Destino</th>
+                                    <th class="py-3 px-4">Horario</th>
+                                    <th class="py-3 px-4">Días</th>
+                                    <th class="py-3 px-4">Servicio</th>
+                                    <th class="py-3 px-4 text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaRutas" class="divide-y divide-slate-200 text-xs text-slate-700">
+                                <!-- Contenido dinámico PC -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </section>
 
     </main>
